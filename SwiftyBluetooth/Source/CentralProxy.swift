@@ -103,6 +103,7 @@ private final class PeripheralScanRequest {
 
 extension CentralProxy {
     func scanWithTimeout(_ timeout: TimeInterval, serviceUUIDs: [CBUUID]?, _ callback: @escaping PeripheralScanCallback) {
+        self.asyncStateCallbacks.removeAll()
         initializeBluetooth { [unowned self] (error) in
             if let error = error {
                 callback(PeripheralScanResult.scanStopped(error: error))
@@ -365,5 +366,6 @@ extension CentralProxy: CBCentralManagerDelegate {
     func centralManager(_ central: CBCentralManager, willRestoreState dict: [String: Any]) {
         self.postCentralEvent(.CentralManagerWillRestoreState, userInfo: dict)
     }
-
+    
 }
+
