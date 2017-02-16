@@ -45,6 +45,16 @@ final class CentralProxy: NSObject {
             object: Central.sharedInstance,
             userInfo: userInfo)
     }
+    
+    func retrieveConnectedPeripherals(withServices serviceUUIDs: [CBUUID]) -> [Peripheral] {
+        let list =  centralManager.retrieveConnectedPeripherals(withServices: serviceUUIDs)
+        var result :[Peripheral] = Array()
+        for p in list{
+            result.append(Peripheral(peripheral: p))
+        }
+        return result
+    }
+    
 }
 
 // MARK: Initialize Bluetooth requests
@@ -83,9 +93,8 @@ extension CentralProxy {
     
     func callAsyncCentralStateCallback(_ state: AsyncCentralState) {
         let callbacks = self.asyncStateCallbacks
-        
+        print("asyncStateCallbacks.count = \(asyncStateCallbacks.count)")
         self.asyncStateCallbacks.removeAll()
-        
         for callback in callbacks {
             callback(state)
         }
@@ -366,6 +375,5 @@ extension CentralProxy: CBCentralManagerDelegate {
     func centralManager(_ central: CBCentralManager, willRestoreState dict: [String: Any]) {
         self.postCentralEvent(.CentralManagerWillRestoreState, userInfo: dict)
     }
-    
-}
 
+}

@@ -171,4 +171,8 @@ extension Central {
         self.centralProxy.asyncState(completion)
     }
     
+    public func retrieveConnectedPeripherals(withServices serviceUUIDs: [CBUUID]) -> [Peripheral] {
+        return self.centralProxy.retrieveConnectedPeripherals(withServices: serviceUUIDs)
+    }
+    
 }

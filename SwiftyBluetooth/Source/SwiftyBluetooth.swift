@@ -32,11 +32,15 @@ import CoreBluetooth
 /// - Parameter completion: The closures, called multiple times throughout a scan.
 public func scanForPeripherals(withServiceUUIDs serviceUUIDs: [CBUUIDConvertible]? = nil,
                                timeoutAfter timeout: TimeInterval,
-                               completion: @escaping PeripheralScanCallback)
-{
+                               completion: @escaping PeripheralScanCallback) {
+    
     Central.sharedInstance.scanForPeripherals(withServiceUUIDs: serviceUUIDs,
                                               timeoutAfter: timeout,
                                               completion: completion)
+}
+
+public func retrieveConnectedPeripherals(withServices serviceUUIDs: [CBUUID]) -> [Peripheral] {
+    return Central.sharedInstance.retrieveConnectedPeripherals(withServices: serviceUUIDs)
 }
 
 /// Will stop the current scan through a CBCentralManager stopScan() function call and invokes the completion
